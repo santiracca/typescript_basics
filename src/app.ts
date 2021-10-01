@@ -1,25 +1,124 @@
-interface AddFn {
-  (a: number, b: number): number;
+type Admin = {
+  name: string;
+  privileges: string[];
+};
+
+type Employee = {
+  name: string;
+  startDate: Date;
+};
+
+type ElevatedEmployee = Admin & Employee;
+
+type Combinable = string | number;
+
+function add(a: number, b: number): number;
+function add(a: string, b: string): string;
+function add(a: Combinable, b: Combinable) {
+  if (typeof a === "string" || typeof b === "string") {
+    return a.toString() + b.toString();
+  }
+  return a + b;
 }
 
-let add: AddFn;
+const fetchedUserData = {
+  id: "id1",
+  name: "Santi",
+  job: { title: "CEO", description: "My own company" },
+};
 
-add = (n1: number, n2: number) => n1 + n2;
+console.log(fetchedUserData.job.title);
 
-interface Greetable extends Named {
-  greet(phrase: string): void;
-}
+let userInputData = undefined;
 
-interface Named {
-  readonly name: string;
-  outputName?: string;
-}
+const storedData = userInputData ?? "DEFAULT";
 
-class Person implements Greetable {
-  constructor(public name: string, public age: number) {}
-  greet(phrase: string): void {
-    throw new Error("Method not implemented.");
+type UnknownEmployee = Employee | Admin;
+
+function printEmployeeInformation(emp: UnknownEmployee) {
+  console.log(`Name: ${emp.name}`);
+  if ("privileges" in emp) {
+    console.log(`Priveleges: ${emp.privileges}`);
+  }
+  if ("startDate" in emp) {
+    console.log(`Start Date: ${emp.startDate}`);
   }
 }
 
-let user1 = new Person("Santi", 29);
+const e1: ElevatedEmployee = {
+  name: "Santi",
+  privileges: ["create-server"],
+  startDate: new Date(),
+};
+
+printEmployeeInformation(e1);
+
+class Car {
+  drive() {
+    console.log("Driving");
+  }
+}
+
+class Truck {
+  drive() {
+    console.log("Driving a truck");
+  }
+
+  loadCargo(amount: number) {
+    console.log(`Loading cargo... ${amount}`);
+  }
+}
+
+type Vehicle = Car | Truck;
+
+const v1 = new Car();
+const v2 = new Truck();
+
+function useVehicle(vehicle: Vehicle) {
+  vehicle.drive();
+  if (vehicle instanceof Truck) {
+    vehicle.loadCargo(1000);
+  }
+}
+
+useVehicle(v1);
+useVehicle(v2);
+
+interface Bird {
+  type: "bird";
+  flyingSpeed: number;
+}
+
+interface Horse {
+  type: "horse";
+  runningSpeed: number;
+}
+
+type Animal = Bird | Horse;
+
+function moveAnimal(animal: Animal) {
+  let speed;
+  switch (animal.type) {
+    case "bird":
+      speed = animal.flyingSpeed;
+      break;
+    case "horse":
+      speed = animal.runningSpeed;
+      break;
+  }
+  console.log(`Moving with speed: ${speed}`);
+}
+
+moveAnimal({ type: "bird", flyingSpeed: 10 });
+
+// const userInput = <HTMLInputElement>document.getElementById("user-input");
+const userInput = document.getElementById("user-input")! as HTMLInputElement;
+
+interface ErrorContainer {
+  [prop: string]: string;
+}
+
+const errorBag: ErrorContainer = {
+  email: "Not a valid email",
+  username: "Must start with a capital character",
+};

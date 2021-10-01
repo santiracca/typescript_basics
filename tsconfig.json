@@ -67,6 +67,7 @@
     "src/functions.ts",
     "src/union-aliases.ts",
     "src/objs-array-enums.ts",
+    "src/interace.ts",
     "src/classes.ts",
     "node_modules"
   ]
