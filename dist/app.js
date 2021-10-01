@@ -1,78 +1,49 @@
 "use strict";
-function add(a, b) {
-    if (typeof a === "string" || typeof b === "string") {
-        return a.toString() + b.toString();
+var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
+    if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
+        if (ar || !(i in from)) {
+            if (!ar) ar = Array.prototype.slice.call(from, 0, i);
+            ar[i] = from[i];
+        }
     }
-    return a + b;
-}
-var fetchedUserData = {
-    id: "id1",
-    name: "Santi",
-    job: { title: "CEO", description: "My own company" },
+    return to.concat(ar || Array.prototype.slice.call(from));
 };
-console.log(fetchedUserData.job.title);
-var userInputData = undefined;
-var storedData = userInputData !== null && userInputData !== void 0 ? userInputData : "DEFAULT";
-function printEmployeeInformation(emp) {
-    console.log("Name: " + emp.name);
-    if ("privileges" in emp) {
-        console.log("Priveleges: " + emp.privileges);
-    }
-    if ("startDate" in emp) {
-        console.log("Start Date: " + emp.startDate);
-    }
+function merge(obj1, obj2) {
+    return Object.assign(obj1, obj2);
 }
-var e1 = {
-    name: "Santi",
-    privileges: ["create-server"],
-    startDate: new Date(),
-};
-printEmployeeInformation(e1);
-var Car = /** @class */ (function () {
-    function Car() {
+var mergedObj = merge({ name: "Max" }, { age: 30 });
+function countAndPrint(element) {
+    var descriptionText = "Got no value.";
+    if (element.length === 1) {
+        descriptionText = "Got 1 element";
     }
-    Car.prototype.drive = function () {
-        console.log("Driving");
+    else if (element.length > 1) {
+        descriptionText == "Got " + element.length + " elements.";
+    }
+    return [element, descriptionText];
+}
+console.log(countAndPrint("Hi there"));
+function extractAndConvert(obj, key) {
+    return "Value: " + obj[key];
+}
+var DataStorage = /** @class */ (function () {
+    function DataStorage() {
+        this.data = [];
+    }
+    DataStorage.prototype.addItem = function (item) {
+        this.data.push(item);
     };
-    return Car;
+    DataStorage.prototype.removeItem = function (item) {
+        this.data.splice(this.data.indexOf(item, 1));
+    };
+    DataStorage.prototype.getItem = function () {
+        return __spreadArray([], this.data, true);
+    };
+    return DataStorage;
 }());
-var Truck = /** @class */ (function () {
-    function Truck() {
-    }
-    Truck.prototype.drive = function () {
-        console.log("Driving a truck");
-    };
-    Truck.prototype.loadCargo = function (amount) {
-        console.log("Loading cargo... " + amount);
-    };
-    return Truck;
-}());
-var v1 = new Car();
-var v2 = new Truck();
-function useVehicle(vehicle) {
-    vehicle.drive();
-    if (vehicle instanceof Truck) {
-        vehicle.loadCargo(1000);
-    }
-}
-useVehicle(v1);
-useVehicle(v2);
-function moveAnimal(animal) {
-    var speed;
-    switch (animal.type) {
-        case "bird":
-            speed = animal.flyingSpeed;
-            break;
-        case "horse":
-            speed = animal.runningSpeed;
-            break;
-    }
-    console.log("Moving with speed: " + speed);
-}
-moveAnimal({ type: "bird", flyingSpeed: 10 });
-// const userInput = <HTMLInputElement>document.getElementById("user-input");
-var userInput = document.getElementById("user-input");
-var errorBag = {
-    email: "Not a valid email",
-    username: "Must start with a capital character",
-};
+var textStorage = new DataStorage();
+textStorage.addItem("Santi");
+textStorage.removeItem("Santi");
+var objStorage = new DataStorage();
+objStorage.addItem({ name: "Santi" });
+objStorage.removeItem({ name: "Santi" });
